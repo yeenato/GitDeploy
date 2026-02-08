@@ -17,6 +17,11 @@ const io = initializeSocket(server);
 // Make io accessible to our router
 app.set('io', io);
 
+// เพิ่มตรงนี้เพื่อให้หน้าแรกมีข้อความ
+app.get('/', (req, res) => {
+    res.send('Server is running normally! 🚀');
+});
+
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
     console.log(`Socket.io server ready`);
