@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  password      String
+  name          String
+  bio           String?
+  phoneNumber   String?
+  profileImage  String?
+  role          String         @default("USER") // USER, ADMIN
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  products      Product[]
+  sentMessages  Message[]      @relation("SentMessages")
+  conversations ConversationParticipant[]
+  addresses     Address[]
+}
+
+model Address {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName    String
+  phoneNumber String
+  addressLine1 String   // House No, Street, etc.
+  addressLine2 String?
+  subdistrict String
+  district    String
+  province    String
+  zipCode     String
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
+}
+
+model Product {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String
+  images      String?
+  video       String?   // Optional video field
+  status      String    @default("PENDING_APPROVAL") // available, exchanged, cancelled, PENDING_APPROVAL
+  price       Int?      
+  ownerId     Int
+  owner       User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  categoryId  Int?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  messages    Message[]
+}
+
+model Conversation {
+  id           Int                        @id @default(autoincrement())
+  createdAt    DateTime                   @default(now())
+  updatedAt    DateTime                   @updatedAt
+  participants ConversationParticipant[]
+  messages     Message[]
+}
+
+model ConversationParticipant {
+  conversationId Int
+  userId         Int
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([conversationId, userId])
+}
+
+model Message {
+  id             Int          @id @default(autoincrement())
+  content        String
+  senderId       Int
+  sender         User         @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  conversationId Int
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  image          String?
+  video          String?   // Optional video field
+  productId      Int?
+  product        Product?     @relation(fields: [productId], references: [id])
+  isRead         Boolean      @default(false)
+  isDeleted      Boolean      @default(false) // Deleted for everyone (Unsend)
+  deletedBy      String       @default("")    // Comma-separated user IDs who deleted for themselves
+  createdAt      DateTime     @default(now())
+}
