@@ -193,7 +193,9 @@ export default function CategoryManagement() {
                                                 onChange={(e) => setCategories(cats => cats.map(c => c.id === category.id ? { ...c, description: e.target.value } : c))}
                                             />
                                         ) : (
-                                            <span className="text-gray-600">{category.description}</span>
+                                            <span className="text-gray-600">
+                                                {categoryKeyMap[category.name] ? t(`categories.${categoryKeyMap[category.name]}Desc`) : category.description}
+                                            </span>
                                         )}
                                     </td>
                                     <td className="p-4">
