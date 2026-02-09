@@ -28,6 +28,19 @@ const categoryKeyMap = {
     'Stationery': 'stationery'
 };
 
+const getFullUrl = (path) => {
+    if (!path) return null;
+    if (path.startsWith('http://') || path.startsWith('https://')) return path;
+    
+    // Clean up the path: remove leading slashes and 'uploads/' if it's already in BACKEND_ORIGIN
+    const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+    
+    // If BACKEND_ORIGIN doesn't end with slash, add it
+    const origin = BACKEND_ORIGIN.endsWith('/') ? BACKEND_ORIGIN : `${BACKEND_ORIGIN}/`;
+    
+    return `${origin}${cleanPath}`;
+};
+
 export default function ProductDetail() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -132,7 +145,7 @@ export default function ProductDetail() {
                                     onClick={() => setSelectedImage(img)}
                                 >
                                     <img
-                                        src={`${BACKEND_ORIGIN}${img}`}
+                                        src={getFullUrl(img)}
                                         alt={`${product.title} ${index + 1}`}
                                         className="w-full h-64 object-contain bg-gray-50 rounded-xl shadow-md group-hover:shadow-lg transition-all duration-300"
                                     />
@@ -151,7 +164,7 @@ export default function ProductDetail() {
                                 {t('items.video')}
                             </h2>
                             <video
-                                src={product.video.startsWith('http') ? product.video : `${BACKEND_ORIGIN}${product.video}`}
+                                src={getFullUrl(product.video)}
                                 controls
                                 className="w-full max-h-[500px] object-contain rounded-xl shadow-md bg-black"
                             />
@@ -201,7 +214,7 @@ export default function ProductDetail() {
                             <div className="flex items-start space-x-4">
                                 <Avatar 
                                     name={product.owner?.name}
-                                    src={product.owner?.profileImage ? `${BACKEND_ORIGIN}${product.owner.profileImage}` : null}
+                                    src={getFullUrl(product.owner?.profileImage)}
                                     size="xl"
                                     className="border-2 border-white shadow-lg"
                                 />
@@ -285,7 +298,7 @@ export default function ProductDetail() {
                         <X size={32} />
                     </button>
                     <img 
-                        src={`${BACKEND_ORIGIN}${selectedImage}`} 
+                        src={getFullUrl(selectedImage)} 
                         alt="Full view" 
                         className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl animate-in zoom-in-95 duration-200"
                         onClick={(e) => e.stopPropagation()} 
