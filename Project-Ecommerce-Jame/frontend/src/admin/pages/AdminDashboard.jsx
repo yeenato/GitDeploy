@@ -18,19 +18,25 @@ export default function AdminDashboard() {
 
     const fetchStats = async () => {
         try {
-            const [users, pendingProducts, categories] = await Promise.all([
+            const results = await Promise.allSettled([
                 api.get('/admin/users'),
                 api.get('/admin/products/pending'),
                 api.get('/admin/categories'),
             ]);
 
+            const [usersResult, pendingProductsResult, categoriesResult] = results;
+
+            if (usersResult.status === 'rejected') console.error('Failed to fetch users:', usersResult.reason);
+            if (pendingProductsResult.status === 'rejected') console.error('Failed to fetch pending products:', pendingProductsResult.reason);
+            if (categoriesResult.status === 'rejected') console.error('Failed to fetch categories:', categoriesResult.reason);
+
             setStats({
-                totalUsers: users.data.length,
-                pendingProducts: pendingProducts.data.length,
-                totalCategories: categories.data.length,
+                totalUsers: usersResult.status === 'fulfilled' ? usersResult.value.data.length : 0,
+                pendingProducts: pendingProductsResult.status === 'fulfilled' ? pendingProductsResult.value.data.length : 0,
+                totalCategories: categoriesResult.status === 'fulfilled' ? categoriesResult.value.data.length : 0,
             });
         } catch (error) {
-            console.error('Failed to fetch stats', error);
+            console.error('Unexpected error fetching stats', error);
         }
     };
 
