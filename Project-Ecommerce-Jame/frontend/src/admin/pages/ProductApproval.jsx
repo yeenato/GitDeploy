@@ -27,19 +27,18 @@ export default function ProductApproval() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const fetchPendingProducts = async () => {
+            try {
+                const { data } = await api.get('/admin/products/pending');
+                setProducts(data);
+            } catch (error) {
+                console.error('Failed to fetch pending products', error);
+            } finally {
+                setLoading(false);
+            }
+        };
         fetchPendingProducts();
     }, []);
-
-    const fetchPendingProducts = async () => {
-        try {
-            const { data } = await api.get('/admin/products/pending');
-            setProducts(data);
-        } catch (error) {
-            console.error('Failed to fetch pending products', error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleApprove = async (id) => {
         try {

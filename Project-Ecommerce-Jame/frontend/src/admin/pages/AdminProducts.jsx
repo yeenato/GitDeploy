@@ -45,23 +45,23 @@ export default function AdminProducts() {
     const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
+        const fetchProducts = async () => {
+            setLoading(true);
+            try {
+                const endpoint = activeTab === 'pending'
+                    ? '/admin/products/pending'
+                    : '/admin/products';
+                const { data } = await api.get(endpoint);
+                setProducts(data);
+            } catch (error) {
+                console.error('Failed to fetch products', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchProducts();
     }, [activeTab]);
-
-    const fetchProducts = async () => {
-        setLoading(true);
-        try {
-            const endpoint = activeTab === 'pending'
-                ? '/admin/products/pending'
-                : '/admin/products';
-            const { data } = await api.get(endpoint);
-            setProducts(data);
-        } catch (error) {
-            console.error('Failed to fetch products', error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleApprove = async (id) => {
         try {
