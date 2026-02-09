@@ -2,21 +2,38 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Ensure uploads directory exists
+// Try to import cloudinary config
+let cloudinaryStorage;
+try {
+    const cloudinaryConfig = require('../config/cloudinary');
+    cloudinaryStorage = cloudinaryConfig.storage;
+} catch (error) {
+    console.log('Cloudinary config not found or dependencies missing, falling back to disk storage');
+}
+
+// Ensure uploads directory exists (for disk storage fallback)
 const uploadDir = path.join(__dirname, '../../uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
 // Set storage engine
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, uploadDir);
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
-});
+let storage;
+
+if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET && cloudinaryStorage) {
+    console.log('Using Cloudinary Storage');
+    storage = cloudinaryStorage;
+} else {
+    console.log('Using Disk Storage');
+    storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, uploadDir);
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        }
+    });
+}
 
 // Check file type
 function checkFileType(file, cb) {

@@ -21,14 +21,17 @@ const createProduct = async (req, res) => {
     
     // 1. Handle Cover Image (always first)
     if (req.files && req.files['coverImage']) {
-        allImages.push(`/uploads/${req.files['coverImage'][0].filename}`);
+        const file = req.files['coverImage'][0];
+        const fileUrl = file.path.startsWith('http') ? file.path : `/uploads/${file.filename}`;
+        allImages.push(fileUrl);
     }
 
     const images = allImages.length > 0 ? JSON.stringify(allImages) : null;
     
     let video = null;
     if (req.files && req.files['video']) {
-        video = `/uploads/${req.files['video'][0].filename}`;
+        const file = req.files['video'][0];
+        video = file.path.startsWith('http') ? file.path : `/uploads/${file.filename}`;
     }
     console.log('Images string to save:', images);
     console.log('Video path to save:', video);
@@ -100,7 +103,9 @@ const updateProduct = async (req, res) => {
     
     if (req.files && req.files['coverImage']) {
         // New cover uploaded
-        finalImages.push(`/uploads/${req.files['coverImage'][0].filename}`);
+        const file = req.files['coverImage'][0];
+        const fileUrl = file.path.startsWith('http') ? file.path : `/uploads/${file.filename}`;
+        finalImages.push(fileUrl);
     } else if (req.body.existingCoverImage) {
         // Keep existing cover
         finalImages.push(req.body.existingCoverImage);
@@ -115,7 +120,8 @@ const updateProduct = async (req, res) => {
 
     let video = product.video;
     if (req.files && req.files['video']) {
-        video = `/uploads/${req.files['video'][0].filename}`;
+        const file = req.files['video'][0];
+        video = file.path.startsWith('http') ? file.path : `/uploads/${file.filename}`;
     }
     console.log('Images string to update:', images);
     console.log('Video path to update:', video);

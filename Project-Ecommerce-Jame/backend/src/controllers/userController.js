@@ -31,7 +31,7 @@ const updateMe = async (req, res) => {
 
     let profileImage = undefined;
     if (req.file) {
-        profileImage = `/uploads/${req.file.filename}`;
+        profileImage = req.file.path.startsWith('http') ? req.file.path : `/uploads/${req.file.filename}`;
     }
 
     const user = await prisma.user.update({

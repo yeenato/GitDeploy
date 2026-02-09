@@ -227,7 +227,7 @@ const uploadChatImage = async (req, res) => {
         throw new Error('No file uploaded');
     }
 
-    const fileUrl = `/uploads/${req.file.filename}`;
+    const fileUrl = req.file.path.startsWith('http') ? req.file.path : `/uploads/${req.file.filename}`;
 
     res.json({
         url: fileUrl,

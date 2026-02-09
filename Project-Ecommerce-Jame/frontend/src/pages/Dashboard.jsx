@@ -36,7 +36,7 @@ export default function Dashboard() {
                 bio: user.bio || '',
                 phoneNumber: user.phoneNumber || '',
             });
-            setImagePreview(user.profileImage ? `${BACKEND_ORIGIN}${user.profileImage}` : null);
+            setImagePreview(user.profileImage ? (user.profileImage.startsWith('http') ? user.profileImage : `${BACKEND_ORIGIN}${user.profileImage}`) : null);
         }
     }, [user]);
 
@@ -100,7 +100,7 @@ export default function Dashboard() {
                         <div className="flex flex-col items-center pb-6 border-b border-gray-100">
                             <Avatar 
                                 name={user?.name} 
-                                src={user?.profileImage ? `${BACKEND_ORIGIN}${user.profileImage}` : null} 
+                                src={user?.profileImage ? (user.profileImage.startsWith('http') ? user.profileImage : `${BACKEND_ORIGIN}${user.profileImage}`) : null} 
                                 size="3xl" 
                                 className="mb-4 shadow-xl"
                             />

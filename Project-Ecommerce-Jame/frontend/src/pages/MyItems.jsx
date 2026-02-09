@@ -101,7 +101,7 @@ export default function MyItems() {
                                 {firstImage && (
                                     <div className="-mx-6 -mt-6 mb-4">
                                         <img
-                                            src={`${BACKEND_ORIGIN}${firstImage}`}
+                                            src={firstImage.startsWith('http') ? firstImage : `${BACKEND_ORIGIN}${firstImage}`}
                                             alt={product.title}
                                             className="w-full h-48 object-contain bg-gray-50 rounded-t-2xl"
                                         />

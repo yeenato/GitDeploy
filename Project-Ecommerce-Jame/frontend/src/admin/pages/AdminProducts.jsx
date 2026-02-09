@@ -325,7 +325,7 @@ export default function AdminProducts() {
                                         {getProductImages(selectedProduct).map((img, idx) => (
                                             <img 
                                                 key={idx}
-                                                src={`${BACKEND_ORIGIN}${img}`} 
+                                                src={img.startsWith('http') ? img : `${BACKEND_ORIGIN}${img}`} 
                                                 alt={`Product ${idx + 1}`}
                                                 className="w-full h-48 object-cover rounded-xl bg-gray-50"
                                             />
@@ -338,7 +338,7 @@ export default function AdminProducts() {
                                     <div>
                                         <h3 className="font-semibold text-gray-900 mb-2">{t('items.video') || 'Video'}</h3>
                                         <video 
-                                            src={`${BACKEND_ORIGIN}${selectedProduct.video}`}
+                                            src={selectedProduct.video.startsWith('http') ? selectedProduct.video : `${BACKEND_ORIGIN}${selectedProduct.video}`}
                                             controls
                                             className="w-full rounded-xl bg-black"
                                         />

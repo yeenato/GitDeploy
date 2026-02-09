@@ -76,7 +76,7 @@ export default function Navbar() {
                                     <div className="mr-2 flex items-center gap-1">
                                         <Avatar 
                                             name={user.name} 
-                                            src={user.profileImage ? `${BACKEND_ORIGIN}${user.profileImage}` : null} 
+                                            src={user.profileImage ? (user.profileImage.startsWith('http') ? user.profileImage : `${BACKEND_ORIGIN}${user.profileImage}`) : null} 
                                             size="sm" 
                                             showOnlineStatus={false}
                                             className="w-6 h-6 text-xs" 
