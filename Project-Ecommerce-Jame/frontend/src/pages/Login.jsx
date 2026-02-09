@@ -22,7 +22,8 @@ export default function Login() {
             await login(email, password);
             window.location.href = '/dashboard';
         } catch (err) {
-            setError(err.response?.data?.message || t('auth.loginFailed'));
+            console.error('Login error:', err);
+            setError(err.response?.data?.message || err.message || t('auth.loginFailed'));
         }
     };
 

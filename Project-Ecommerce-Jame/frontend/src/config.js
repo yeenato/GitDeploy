@@ -1,8 +1,7 @@
-const isProduction = import.meta.env.PROD;
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-// สังเกตตรงนี้: ต้องมีคำว่า export const และชื่อต้องเป็น BACKEND_ORIGIN เป๊ะๆ
-export const BACKEND_ORIGIN = isProduction
-  ? 'https://denchai-marketplace-dz9y.onrender.com'
-  : 'http://localhost:3000';
+export const BACKEND_ORIGIN = isLocal
+  ? 'http://localhost:3000'
+  : 'https://denchai-marketplace-dz9y.onrender.com';
 
 // ถ้ามีบรรทัด export default ... ให้ลบทิ้ง หรือคอมเมนต์ปิดไปเลยครับcd ..cd ..
