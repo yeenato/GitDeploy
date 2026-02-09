@@ -89,7 +89,7 @@ export default function ShippingAddress() {
         setModalConfig({
             isOpen: true,
             title: editingAddress ? t('address.edit') : t('address.addNew'),
-            message: editingAddress ? 'Are you sure you want to update this address?' : 'Are you sure you want to add this address?',
+            message: editingAddress ? t('address.confirmUpdate') : t('address.confirmAdd'),
             action: 'save',
             isDestructive: false
         });

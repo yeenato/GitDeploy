@@ -35,6 +35,8 @@ export const translations = {
             saveChanges: 'Save Changes',
             changePhoto: 'Click avatar to change photo',
             tellUs: 'Tell us about yourself...',
+            confirmUpdate: 'Confirm Update',
+            confirmUpdateDesc: 'Are you sure you want to update your profile information?',
         },
         product: {
             description: 'Description',
@@ -159,6 +161,8 @@ export const translations = {
             default: 'Default',
             noAddresses: 'No addresses found',
             confirmDelete: 'Are you sure you want to delete this address?',
+            confirmUpdate: 'Are you sure you want to update this address?',
+            confirmAdd: 'Are you sure you want to add this address?',
             saveSuccess: 'Address saved successfully',
             deleteSuccess: 'Address deleted successfully',
         },
@@ -275,6 +279,8 @@ export const translations = {
             saveChanges: 'บันทึกการเปลี่ยนแปลง',
             changePhoto: 'คลิกที่รูปเพื่อเปลี่ยนรูปโปรไฟล์',
             tellUs: 'บอกเล่าเกี่ยวกับตัวคุณ...',
+            confirmUpdate: 'ยืนยันการแก้ไขข้อมูล',
+            confirmUpdateDesc: 'คุณแน่ใจหรือไม่ที่จะบันทึกการเปลี่ยนแปลงข้อมูลส่วนตัวของคุณ?',
         },
         product: {
             description: 'รายละเอียด',
@@ -398,7 +404,9 @@ export const translations = {
             default: 'ค่าเริ่มต้น',
             noAddresses: 'ไม่พบที่อยู่จัดส่ง',
             confirmDelete: 'คุณแน่ใจหรือไม่ที่จะลบที่อยู่นี้?',
-            saveSuccess: 'บันทึกที่อยู่เรียบร้อยแล้ว',
+            confirmUpdate: 'คุณแน่ใจหรือไม่ที่จะแก้ไขที่อยู่นี้?',
+            confirmAdd: 'คุณแน่ใจหรือไม่ที่จะเพิ่มที่อยู่นี้?',
+            saveSuccess: 'บันทึกที่อยู่สำเร็จ',
             deleteSuccess: 'ลบที่อยู่เรียบร้อยแล้ว',
         },
         admin: {
