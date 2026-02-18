@@ -182,7 +182,8 @@ export default function EditItem() {
 
         try {
             await api.put(`/products/${id}`, data);
-            if (formData.status) {
+            const validStatusOptions = ['available', 'exchanged', 'cancelled'];
+            if (formData.status && validStatusOptions.includes(formData.status)) {
                 await api.patch(`/products/${id}/status`, { status: formData.status });
             }
             
